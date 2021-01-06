@@ -3,30 +3,33 @@ from betfairlightweight import filters
 
 
 # create trading instance
-trading = betfairlightweight.APIClient("username", "password", app_key="appKey")
-
+trading = betfairlightweight.APIClient("wutianyao01@gmail.com", "Wty200801=",
+                                       certs="C:/Program Files/OpenSSL-Win64/bin/",
+                                       app_key="nN9lYWTm3zB44oXY",
+                                       cert_files=['C:/Program Files/OpenSSL-Win64/bin/client-2048.crt',
+                                                   'C:/Program Files/OpenSSL-Win64/bin/client-2048.key'])
 # login
 trading.login()
 
 # make event type request to find horse racing event type
-horse_racing_event_type_id = trading.betting.list_event_types(
-    filter=filters.market_filter(text_query="Horse Racing")
+soccer_event_type_id = trading.betting.list_event_types(
+    filter=filters.market_filter(text_query="Football")
 )
 
 # returns one result
-print(horse_racing_event_type_id)
+print(soccer_event_type_id)
 
-for event_type in horse_racing_event_type_id:
+for event_type in soccer_event_type_id:
     # prints id, name and market count
     print(event_type.event_type.id, event_type.event_type.name, event_type.market_count)
-    horse_racing_id = event_type.event_type.id
+    soccer_id = event_type.event_type.id
 
     # list all horse racing market catalogues
     market_catalogues = trading.betting.list_market_catalogue(
         filter=filters.market_filter(
-            event_type_ids=[horse_racing_id],  # filter on just horse racing
+            event_type_ids=[soccer_id],  # filter on just horse racing
             market_countries=["GB"],  # filter on just GB countries
-            market_type_codes=["WIN"],  # filter on just WIN market types
+            market_type_codes=["MATCH_ODDS"],  # filter on just WIN market types
         ),
         market_projection=[
             "MARKET_START_TIME",
